@@ -27,7 +27,7 @@ public class UsuariosDAO implements IUsuariosDAO{
 		
 		Connection con = conexion.conectar();
 		
-		if (con != null) {
+		
 			try {
 				String sql = "INSERT INTO usuarios (usuario, contraseña) VALUES  (?, ?)";
 				
@@ -44,7 +44,7 @@ public class UsuariosDAO implements IUsuariosDAO{
 			} finally {
 				conexion.desconectar();
 			}
-		}
+		
 		
 		return registroAgregado;
 	}

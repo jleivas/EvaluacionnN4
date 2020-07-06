@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cl.awakelab.conexion.Conexion;
 import cl.awakelab.dao.UsuariosDAO;
 import cl.awakelab.model.Usuario;
 
@@ -17,6 +18,19 @@ import cl.awakelab.model.Usuario;
 public class CreacionUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	UsuariosDAO usuariosDAO;
+	
+	 public void init() {
+		 
+		 String url = getServletContext().getInitParameter("jdbcURL");
+	     String username = getServletContext().getInitParameter("jdbcUsername");
+	     String password = getServletContext().getInitParameter("jdbcPassword");
+	      
+	     Conexion conexion = Conexion.getInstance(url, username, password);
+	     
+	     usuariosDAO = new UsuariosDAO(conexion);
+	         
+	 }
     /**
      * @see HttpServlet#HttpServlet()
      */
