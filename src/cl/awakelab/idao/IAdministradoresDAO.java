@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IAdministradoresDAO extends InterfaceSuper{
 
-	public  List<Object> buscarUsuario(String usuario);
+	public Object buscarUsuario(String usuario);
 }

@@ -4,15 +4,15 @@ public class Usuario {
 
 	private int idUser;
 	private String usuario;
-	private String contraseña;
+	private String password;
 	
 	public Usuario() {
 		super();
 	}
 	
-	public Usuario(String usuario, String contraseña) {
+	public Usuario(String usuario, String password) {
 		this.usuario = usuario;
-		this.contraseña = contraseña;
+		this.password = password;
 	}
 
 
@@ -36,19 +36,19 @@ public class Usuario {
 	}
 
 
-	public String getContraseña() {
-		return contraseña;
+	public String getPassword() {
+		return password;
 	}
 
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPassword(String password) {
+		this.password= password;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Usuario [idUser=" + idUser + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
+		return "Usuario [idUser=" + idUser + ", usuario=" + usuario + ", contraseña=" + password + "]";
 	}
 	
 	

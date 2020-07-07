@@ -1,7 +1,6 @@
 package cl.awakelab.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import cl.awakelab.conexion.Conexion;
 import cl.awakelab.dao.AdministradoresDAO;
-import cl.awakelab.dao.UsuariosDAO;
 import cl.awakelab.model.Administrador;
 
 /**
  * Servlet implementation class LogIN
  */
-@WebServlet("/LogIN")
-public class LogIN extends HttpServlet {
+@WebServlet("/Login")
+public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	AdministradoresDAO administradoresDAO;
@@ -27,7 +26,7 @@ public class LogIN extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogIN() {
+    public Login() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,15 +43,15 @@ public class LogIN extends HttpServlet {
 	         
 	 }
     
-    private static final void home(HttpServletRequest request, HttpServletResponse response) {
-    	HttpSession session = request.getSession();
+   // private static final void home(HttpServletRequest request, HttpServletResponse response) {
+    //	HttpSession session = request.getSession();
     	
-    	String usuario = request.getParameter("usuario");
-    	String password = request.getParameter("password"); 
+    	//String usuario = request.getParameter("usuario");
+    	//String password = request.getParameter("password"); 
     	
-    	session.setAttribute("usuario", usuario);
-    	session.setAttribute("pass", password);
-    }
+    	//session.setAttribute("usuario", usuario);
+    	//session.setAttribute("pass", password);
+    //}
     
     
     
@@ -62,21 +61,34 @@ public class LogIN extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/WEB-INF/Vista/login.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession session = request.getSession();
 		
 		String usuario = request.getParameter("usuario");
     	String password = request.getParameter("password"); 
     	
-    	List<Object> admin = administradoresDAO.buscarUsuario(usuario);
+    	Administrador admin = administradoresDAO.buscarUsuario(usuario);
     	
-    	
+    	if (admin != null && password == admin.getPassword()) {
+    		int id = admin.getIdAdmin();
+    		session.setAttribute("loggedIn", true);
+    		session.setAttribute("id", id);
+    		
+    		response.sendRedirect("/WebContent/WEB-INF/Vista/panel/AdminPanel");
+    	} else {
+    		String error = "Usuario y/o Contraseña no válida";
+    		
+    		request.setAttribute("error", error);
+    		request.setAttribute("usuario", usuario);
+    		
+    		request.getRequestDispatcher("/WEB-INF/Vista/login.jsp").forward(request, response);
+    	}
     	
 	}
 

@@ -33,11 +33,11 @@ public class CreacionUsuario extends HttpServlet {
 	         
 	 }
 	 
-	 private static final void panel(HttpServletRequest request, HttpServletResponse response) {
-		 HttpSession session = request.getSession();
+	// private static final void panel(HttpServletRequest request, HttpServletResponse response) {
+		// HttpSession session = request.getSession();
 		 
 		 
-	 }
+	// }
     /**
      * @see HttpServlet#HttpServlet()
      */

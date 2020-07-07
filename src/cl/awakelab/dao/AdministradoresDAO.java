@@ -137,9 +137,9 @@ private Conexion conexion;
 
 
 	@Override
-	public List<Object> buscarUsuario(String usuario) {
+	public Administrador buscarUsuario(String usuario) {
 		
-		List<Object> admins = null;
+		Administrador admin = null;
 		
 		Connection con = conexion.conectar();
 		if (con != null) {
@@ -149,14 +149,11 @@ private Conexion conexion;
 				PreparedStatement st = con.prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
 				
-				admins = new ArrayList<>();
-				
 				while (rs.next()) {
 					Administrador a = new Administrador();
 					a.setIdUser(rs.getInt("idUser"));
 					a.setUsuario(rs.getString("usuario"));
 					a.setNombre(rs.getString("nombre"));
-					admins.add(a);
 				} 
 			} catch (SQLException e) {
 				System.out.println("Error: Clase AdministradoresDAO / Método mostrarRegistros");
@@ -166,7 +163,7 @@ private Conexion conexion;
 			}
 		}
 
-		return admins;
+		return admin;
 		
 	}
 }

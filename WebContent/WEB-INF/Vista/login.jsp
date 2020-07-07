@@ -9,10 +9,10 @@
 </head>
 <body>
 
-<form action="logIN" method="post">
+<form action="login" method="post">
 	Nombre de Usuario: <input type="text" name="usuario" /><br/>
 	Contraseña: <input type="password" name="contraseña" /> <br/>
-	<input type="submit" value="logIN" />
+	<input type="submit" value="login" />
 </form>
 
 </body>
