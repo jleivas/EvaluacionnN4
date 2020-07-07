@@ -102,7 +102,7 @@ private Conexion conexion;
 				
 				registroActualizado = st.executeUpdate() > 0;
 			} catch (SQLException e) {
-				System.out.println("Error: Clase ClienteDAO / Método actualizarRegistro");
+				System.out.println("Error: Clase ClientesDAO / Método actualizarRegistro");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();
@@ -129,7 +129,7 @@ private Conexion conexion;
 				
 				registroEliminado = st.executeUpdate() > 0;
 			} catch (SQLException e) {
-				System.out.println("Error: Clase ClienteDAO / Método eliminarRegistro");
+				System.out.println("Error: Clase ClientesDAO / Método eliminarRegistro");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();

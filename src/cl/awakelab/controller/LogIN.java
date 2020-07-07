@@ -12,7 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import cl.awakelab.conexion.Conexion;
 import cl.awakelab.dao.AdministradoresDAO;
+import cl.awakelab.dao.ClientesDAO;
+import cl.awakelab.dao.ProfesionalesDAO;
 import cl.awakelab.model.Administrador;
+import cl.awakelab.model.Cliente;
+import cl.awakelab.model.Profesional;
 
 /**
  * Servlet implementation class LogIN
@@ -22,6 +26,8 @@ public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	AdministradoresDAO administradoresDAO;
+	ProfesionalesDAO profesionalesDAO;
+	ClientesDAO clientesDAO;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -61,7 +67,7 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.getRequestDispatcher("/WEB-INF/Vista/home.jsp").forward(request, response);
+		request.getRequestDispatcher("/Home.jsp").forward(request, response);
 	}
 
 	/**
@@ -74,14 +80,26 @@ public class Login extends HttpServlet {
     	String password = request.getParameter("password"); 
     	
     	Administrador admin = administradoresDAO.buscarUsuario(usuario);
-    	String clave = admin.getPassword();
+    	Profesional prof = profesionalesDAO.buscarUsuario(usuario);
+    	Cliente cliente = clientesDAO.buscarUsuario(usuario);  	
     	
-    	if (admin != null && clave.equals(password)) {
+    	if (admin != null && admin.getPassword().equals(password)) {
     		int id = admin.getIdAdmin();
     		session.setAttribute("loggedIn", true);
     		session.setAttribute("id", id);
-    		System.out.println("NO ENCUENTRO LA WEAAA");
-    		response.sendRedirect(request.getContextPath() + "/Panel/AdminPanel.jsp");
+    		request.getRequestDispatcher("Panel/AdminPanel.jsp").forward(request, response);
+    		
+    	} if (prof != null && prof.getPassword().equals(password)) {
+    		int id = prof.getIdProf();
+    		session.setAttribute("loggedIn", true);
+    		session.setAttribute("id", id);
+    		request.getRequestDispatcher("Panel/ProfPanel.jsp").forward(request, response);
+    
+    	} if (cliente != null && cliente.getPassword().equals(password)) {
+    		int id = cliente.getIdCliente();
+    		session.setAttribute("loggedIn", true);
+    		session.setAttribute("id", id);
+    		request.getRequestDispatcher("Panel/ClientePanel.jsp").forward(request, response); 
     		
     	} else {
     		String error = "Usuario y/o Contraseña no válida";
@@ -89,7 +107,7 @@ public class Login extends HttpServlet {
     		request.setAttribute("error", error);
     		request.setAttribute("usuario", usuario);
     		
-    		request.getRequestDispatcher("/WEB-INF/Vista/home.jsp").forward(request, response);
+    		request.getRequestDispatcher("/Home.jsp").forward(request, response);
     	}
     	
 	}
