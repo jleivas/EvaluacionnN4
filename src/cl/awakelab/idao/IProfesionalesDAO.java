@@ -1,7 +1,6 @@
 package cl.awakelab.idao;
 
-
-public interface IAdministradoresDAO extends InterfaceSuper{
+public interface IProfesionalesDAO extends InterfaceSuper{
 
 	public Object buscarUsuario(String usuario);
 }

@@ -13,7 +13,12 @@ public class Actividad {
 	private boolean situacionVisita;
 	
 	public Actividad() {
-		super();
+	}
+	
+	public Actividad(int idCliente, String nombre, int precio) {
+		this.idCliente = idCliente;
+		this.nombre = nombre;
+		this.precio = precio;
 	}
 	
 	public Actividad(int idCliente, int idProf, int idAsesoria, int idRevision, String nombre, int precio,

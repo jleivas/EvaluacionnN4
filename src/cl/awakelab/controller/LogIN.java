@@ -22,7 +22,7 @@ public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	AdministradoresDAO administradoresDAO;
-       
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -61,7 +61,7 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.getRequestDispatcher("/WEB-INF/Vista/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/Vista/home.jsp").forward(request, response);
 	}
 
 	/**
@@ -74,20 +74,22 @@ public class Login extends HttpServlet {
     	String password = request.getParameter("password"); 
     	
     	Administrador admin = administradoresDAO.buscarUsuario(usuario);
+    	String clave = admin.getPassword();
     	
-    	if (admin != null && password == admin.getPassword()) {
+    	if (admin != null && clave.equals(password)) {
     		int id = admin.getIdAdmin();
     		session.setAttribute("loggedIn", true);
     		session.setAttribute("id", id);
+    		System.out.println("NO ENCUENTRO LA WEAAA");
+    		response.sendRedirect(request.getContextPath() + "/Panel/AdminPanel.jsp");
     		
-    		response.sendRedirect("/WebContent/WEB-INF/Vista/panel/AdminPanel");
     	} else {
     		String error = "Usuario y/o Contraseña no válida";
     		
     		request.setAttribute("error", error);
     		request.setAttribute("usuario", usuario);
     		
-    		request.getRequestDispatcher("/WEB-INF/Vista/login.jsp").forward(request, response);
+    		request.getRequestDispatcher("/WEB-INF/Vista/home.jsp").forward(request, response);
     	}
     	
 	}

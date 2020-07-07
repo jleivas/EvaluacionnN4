@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.awakelab.conexion.Conexion;
-import cl.awakelab.idao.IAdministradoresDAO;
-import cl.awakelab.model.Administrador;
+import cl.awakelab.idao.IClientesDAO;
+import cl.awakelab.model.Cliente;
 
-public class AdministradoresDAO implements IAdministradoresDAO{
+public class ClientesDAO implements IClientesDAO{
 
 private Conexion conexion;
 	
-	public AdministradoresDAO(Conexion conexion) {
+	public ClientesDAO(Conexion conexion) {
 		this.conexion = conexion;
 	}
 	
@@ -28,18 +28,18 @@ private Conexion conexion;
 		Connection con = conexion.conectar();
 	
 			try {
-				String sql = "INSERT INTO administradores (nombre, usuario, password) VALUES  (?, ?, ?)";
+				String sql = "INSERT INTO clientes (nombre, usuario, password) VALUES  (?, ?, ?)";
 				
-				Administrador admin= (Administrador) objeto;
+				Cliente cliente = (Cliente) objeto;
 				PreparedStatement st = con.prepareStatement(sql);
 				
-				st.setString(1, admin.getNombre());
-				st.setString(2, admin.getUsuario());
-				st.setString(3, admin.getPassword());
+				st.setString(1, cliente.getNombre());
+				st.setString(2, cliente.getUsuario());
+				st.setString(3, cliente.getPassword());
 				
 				registroAgregado = st.executeUpdate() > 0;
 			} catch (SQLException e){
-				System.out.println("Error: Clase AdmintradoresDAO / Método agregarRegistro");
+				System.out.println("Error: Clase ClientesDAO / Método agregarRegistro");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();
@@ -52,36 +52,36 @@ private Conexion conexion;
 	@Override
 	public List<Object> mostrarRegistros() {
 		// TODO Auto-generated method stub
-		List<Object> admins = null;
+		List<Object> clientes = null;
 		
 		Connection con = conexion.conectar();
 		
 		if (con != null) {
 			try {
-				String sql = "SELECT idAdmin, nombre, usuario FROM administradores ORDER BY idAdmin";
+				String sql = "SELECT idCliente, nombre, usuario FROM clientes ORDER BY idCliente";
 				
 				PreparedStatement st = con.prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
 				
-				admins = new ArrayList<>();
+				clientes = new ArrayList<>();
 				
 				while (rs.next()) {
-					Administrador a = new Administrador();
-					a.setIdAdmin(rs.getInt("idAdmin"));
+					Cliente a = new Cliente();
+					a.setIdCliente(rs.getInt("idCliente"));
 					a.setNombre(rs.getString("nombre"));
 					a.setUsuario(rs.getString("usuario"));
 					
-					admins.add(a);
+					clientes.add(a);
 				} 
 			} catch (SQLException e) {
-				System.out.println("Error: Clase AdministradoresDAO / Método mostrarRegistros");
+				System.out.println("Error: Clase ClientesDAO / Método mostrarRegistros");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();
 			}
 		}
 
-		return admins;
+		return clientes;
 	}
 
 	@Override
@@ -93,16 +93,16 @@ private Conexion conexion;
 		
 		if (con != null) {
 			try {
-				String sql = "UPDATE administradores SET nombre = ? WHERE idAdmin = ?";
+				String sql = "UPDATE clientes SET nombre = ? WHERE idCliente= ?";
 				
-				Administrador admin = (Administrador) objeto;
+				Cliente cliente = (Cliente) objeto;
 				PreparedStatement st = con.prepareStatement(sql);
 				
-				st.setString(1, admin.getNombre());
+				st.setString(1, cliente.getNombre());
 				
 				registroActualizado = st.executeUpdate() > 0;
 			} catch (SQLException e) {
-				System.out.println("Error: Clase AdministradoresDAO / Método actualizarRegistro");
+				System.out.println("Error: Clase ClienteDAO / Método actualizarRegistro");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();
@@ -120,16 +120,16 @@ private Conexion conexion;
 		
 		if (con != null) {
 			try {
-				String sql = "DELETE FROM administrador WHERE idAdmin = ?";
+				String sql = "DELETE FROM clientes WHERE idCliente = ?";
 				
-				Administrador admin = (Administrador) objeto;
+				Cliente cliente = (Cliente) objeto;
 				PreparedStatement st = con.prepareStatement(sql);
 				
-				st.setInt(1, admin.getIdAdmin());
+				st.setInt(1, cliente.getIdCliente());
 				
 				registroEliminado = st.executeUpdate() > 0;
 			} catch (SQLException e) {
-				System.out.println("Error: Clase AdministradoresDAO / Método eliminarRegistro");
+				System.out.println("Error: Clase ClienteDAO / Método eliminarRegistro");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();
@@ -140,34 +140,34 @@ private Conexion conexion;
 
 
 	@Override
-	public Administrador buscarUsuario(String usuario) {
+	public Cliente buscarUsuario(String usuario) {
 		
-		Administrador a = new Administrador();
+		Cliente c = new Cliente();
 		
 		Connection con = conexion.conectar();
 		if (con != null) {
 			try {
-				String sql = "SELECT idAdmin, usuario, nombre, password FROM administradores WHERE usuario = ?";
+				String sql = "SELECT idCliente, usuario, nombre, password FROM Clientes WHERE usuario = ?";
 				
 				PreparedStatement st = con.prepareStatement(sql);
 				st.setString(1, usuario);
 				ResultSet rs = st.executeQuery();
 				
 				while (rs.next()) {
-					a.setIdAdmin(rs.getInt("idAdmin"));
-					a.setUsuario(rs.getString("usuario"));
-					a.setNombre(rs.getString("nombre"));
-					a.setPassword(rs.getString("password"));
+					c.setIdCliente(rs.getInt("idCliente"));
+					c.setUsuario(rs.getString("usuario"));
+					c.setNombre(rs.getString("nombre"));
+					c.setPassword(rs.getString("password"));
 				} 
 			} catch (SQLException e) {
-				System.out.println("Error: Clase AdministradoresDAO / Método buscarRegistros");
+				System.out.println("Error: Clase ClientesDAO / Método buscarUsuario");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();
 			}
 		}
 
-		return a;
+		return c;
 		
 	}
 }
