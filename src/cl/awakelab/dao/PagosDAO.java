@@ -18,7 +18,7 @@ private Conexion conexion;
 		this.conexion = conexion;
 	}
 	public List<Pagos> lPagos(){
-		Connection conn = conexion.conectar();
+		Connection conn = null;
 		Statement stm = null;
 		ResultSet rs = null;
 		
@@ -52,7 +52,7 @@ private Conexion conexion;
 	public boolean pagarTotal(Pagos pagar) {
 		boolean pago = false;
 		Statement stm = null;
-		Connection con = conexion.conectar();
+		Connection con = null;
 		
 		String sql = "select idcliente, total, upago from pagos ('"+ pagar.getIdCliente() +"','"+ pagar.getMonto() +"'.'"+ pagar.getuPago()+"' )";
 		try {

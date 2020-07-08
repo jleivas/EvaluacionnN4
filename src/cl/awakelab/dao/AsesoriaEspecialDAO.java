@@ -5,20 +5,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import cl.awakelab.model.Asesoria;
-import cl.awakelab.conexion.ConexionSingleton;
+import cl.awakelab.conexion.Conexion;
+
 
 public class AsesoriaEspecialDAO {
+private Conexion conexion;
+	
+	public AsesoriaEspecialDAO(Conexion conexion) {
+		this.conexion = conexion;
+	}
 	
 	public boolean solicitarAsesoria(Asesoria as){
 		
 		boolean crearSolicitud = false;
 		
 		Statement stm = null;
-		Connection con = null;
+		Connection con = conexion.conectar();
 		
 		String sql = "insert into asesoria values (null, '"+ as.getFechaAsesoria() + "','"+as.getTipoAsesoria()+"')";
 		try {
-			con = ConexionSingleton.getConnection();
+			con = conexion.conectar();
 			stm = con.createStatement();
 			stm.execute(sql);
 			crearSolicitud = true;

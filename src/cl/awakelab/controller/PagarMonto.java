@@ -17,6 +17,7 @@ import cl.awakelab.model.Pagos;
 public class PagarMonto extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	  PagosDAO pagosDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -31,9 +32,9 @@ public class PagarMonto extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int pagoid = Integer.parseInt(request.getParameter("idCliente"));
 		
-		PagosDAO PDAO = new PagosDAO();
+		
 		Pagos pago = new Pagos();
-		pago = PDAO.obtenerPagos(pagoid);
+		pago = pagosDao.obtenerPagos(pagoid);
 		
 		request.setAttribute("datosPago", pago);
 		request.getRequestDispatcher(".jsp").forward(request, response);
@@ -50,8 +51,7 @@ public class PagarMonto extends HttpServlet {
 		int idcliente = Integer.parseInt(request.getParameter("idcliente"));
 		
 		Pagos  pago = new Pagos(idcliente, Monto); 
-		PagosDAO pagar = new PagosDAO();
-		boolean editPago = pagar.pagarTotal(pago);
+		boolean editPago = pagosDao.pagarTotal(pago);
 		String mensaje = "";
 		
 		if(editPago) {

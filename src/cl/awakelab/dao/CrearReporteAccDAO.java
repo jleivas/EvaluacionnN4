@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cl.awakelab.idao.IDAOaccidentes;
-
-import cl.awakelab.conexion.ConexionSingleton;
+import cl.awakelab.conexion.Conexion;
 import cl.awakelab.model.Accidente;
 
 
@@ -17,6 +16,11 @@ import cl.awakelab.model.Accidente;
 
 public class CrearReporteAccDAO implements IDAOaccidentes {
 
+	private Conexion conexion;
+	
+	public CrearReporteAccDAO(Conexion conexion) {
+		this.conexion = conexion;
+	}
 	@Override
 	public boolean CrearReporte(Accidente acc) {
 		boolean registrar = false;
@@ -25,7 +29,7 @@ public class CrearReporteAccDAO implements IDAOaccidentes {
 		
 		String sql = "insert into accidente values (null, '" + acc.getFecha() + "','"+ acc.getTipoAccidente() +"',null)";
 	try {
-		con = ConexionSingleton.getConnection();
+		con = conexion.conectar();
 		stm = con.createStatement();
 		stm.execute(sql);
 		registrar =true;
@@ -49,7 +53,7 @@ public class CrearReporteAccDAO implements IDAOaccidentes {
 			List<Accidente> listAccidentes = new ArrayList<Accidente>();
 			
 			try {
-				conn = ConexionSingleton.getConnection();
+				conn = conexion.conectar();
 				stm = conn.createStatement();
 				rs = stm.executeQuery(sql);
 				while (rs.next()) {
@@ -81,7 +85,7 @@ public class CrearReporteAccDAO implements IDAOaccidentes {
 		String sql = "delete from accidente where idAccidente = " + acc.getIdAccidente();
 		
 		try {
-			con = ConexionSingleton.getConnection();
+			con = conexion.conectar();
 			stm = con.createStatement();
 			stm.execute(sql);
 			eliminar = true;

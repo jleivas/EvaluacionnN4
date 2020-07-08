@@ -19,7 +19,7 @@ import cl.awakelab.model.Accidente;
 @WebServlet("/ElimnarReporte")
 public class ElimnarReporte extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+       CrearReporteAccDAO accDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -35,7 +35,6 @@ public class ElimnarReporte extends HttpServlet {
 	int idAccidente = Integer.parseInt(request.getParameter(""));
 	Accidente accidente = new Accidente();
 	accidente.setIdAccidente(idAccidente);
-	CrearReporteAccDAO accDao = new CrearReporteAccDAO();
 	boolean eliminar = accDao.eliminarReporte(accidente);
 	List<Accidente> listEliminar = new ArrayList<Accidente>();
 	listEliminar = accDao.misAccidentes();

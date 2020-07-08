@@ -20,6 +20,7 @@ import cl.awakelab.model.Accidente;
 public class listarMisAccidentes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	  CrearReporteAccDAO accDao;
     /**
      * Default constructor. 
      */
@@ -31,10 +32,10 @@ public class listarMisAccidentes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CrearReporteAccDAO rep = new CrearReporteAccDAO();
+	
 		List<Accidente> lMisAccidentes = new ArrayList<Accidente>();
 		
-		lMisAccidentes = rep.misAccidentes();
+		lMisAccidentes = accDao.misAccidentes();
 		
 		request.setAttribute("mAccidentes", lMisAccidentes);
 		request.getRequestDispatcher("listaReporte.jsp").forward(request, response);

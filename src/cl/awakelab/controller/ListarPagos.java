@@ -20,6 +20,7 @@ import cl.awakelab.model.Pagos;
 public class ListarPagos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	PagosDAO pagosDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -32,7 +33,7 @@ public class ListarPagos extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PagosDAO pagosDao = new PagosDAO();
+		
 		List<Pagos> listPago =new ArrayList<Pagos>();
 		
 		listPago = pagosDao.lPagos();

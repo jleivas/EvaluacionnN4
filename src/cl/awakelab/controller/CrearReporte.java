@@ -17,6 +17,7 @@ import cl.awakelab.model.Accidente;
 public class CrearReporte extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	  CrearReporteAccDAO accDao;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,8 +42,7 @@ public class CrearReporte extends HttpServlet {
 		String tipoAccidente = request.getParameter("");
 		
 		Accidente accidente = new Accidente();
-		CrearReporteAccDAO accidenteDao = new CrearReporteAccDAO();
-		boolean agregarRep = accidenteDao.CrearReporte(accidente);
+		boolean agregarRep = accDao.CrearReporte(accidente);
 		String mensaje = "";
 		if(agregarRep) {
 			mensaje = "Reporte creado";

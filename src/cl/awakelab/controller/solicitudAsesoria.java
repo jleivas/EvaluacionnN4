@@ -17,6 +17,7 @@ import cl.awakelab.model.Asesoria;
 public class solicitudAsesoria extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	AsesoriaEspecialDAO asesoriaDAO;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,8 +42,7 @@ public class solicitudAsesoria extends HttpServlet {
 		String fechaAsesoria = request.getParameter("textFecha");
 				
 			Asesoria peticion = new Asesoria(tipoAsesoria,fechaAsesoria);
-			AsesoriaEspecialDAO AEDAO = new AsesoriaEspecialDAO();
-			boolean solicitar = AEDAO.solicitarAsesoria(peticion);
+			boolean solicitar = asesoriaDAO.solicitarAsesoria(peticion);
 			String mensaje = "";
 			if (solicitar == true) {
 				mensaje = "solicitud enviada";

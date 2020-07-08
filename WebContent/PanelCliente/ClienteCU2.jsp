@@ -28,16 +28,18 @@
         <div class="box">
             <h3 class="title">Reportar Accidente</h3>
             <p class="parable">¿Hubo un accidente? Cuentanos al respecto.</p>
+            <c:forEach items="${elMensaje}"/>
+      
             <div class="label-input">
                 <label for="fechaAsesoria">Fecha de Accidente:</label><br>
-                <input type="text" placeholder="Ingrese fecha del accidente" name="nombre" required>
+                <input type="text" placeholder="Ingrese fecha del accidente" name="fechaAccidente" required>
             </div>
             <div class="label-textarea">
                 <label for="tipoAsesoria">Tipo de Accidente</label>
-                <textarea name="descripcion" placeholder="Ingresa una descripcion de como ocurrió el accidente" cols="49" rows="10"></textarea>
+                <textarea name="tipoAccidente" placeholder="Ingresa una descripcion de como ocurrió el accidente" cols="49" rows="10"></textarea>
             </div>
             <div>
-                <input class="submit-button" type="submit" value="Reportar Accidente" onclick="window.location='#';" />
+                <input class="submit-button" type="submit" value="Reportar Accidente" onclick="window.location='CrearReporte.java';" />
             </div>
         </div>
     </main>

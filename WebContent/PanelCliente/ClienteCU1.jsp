@@ -27,17 +27,17 @@
     <main>
         <div class="box">
             <h3 class="title">Solicita una Asesoria</h3>
-            <p class="parable">Solicita información de como prevenir un accidente.</p>
+            <p class="parable">Ingrsar una solicitud de asesoria.</p>
             <div class="label-input">
                 <label for="fechaAsesoria">Fecha de Asesoria:</label><br>
-                <input type="text" placeholder="Ingrese fecha deseada para su asesoria" name="nombre" required>
+                <input type="text" placeholder="Ingrese fecha deseada para su asesoria" name="fecha" required>
             </div>
             <div class="label-textarea">
                 <label for="tipoAsesoria">Tipo de Asesoria</label>
                 <textarea name="descripcion" placeholder="Ingresa una descripcion del tipo de asesoria que desea recibir." cols="49" rows="10"></textarea>
             </div>
             <div>
-                <input class="submit-button" type="submit" value="Solicitar Asesoria" onclick="window.location='#';" />
+                <input class="submit-button" type="submit" value="Solicitar Asesoria" onclick="window.location='solicitudAsesoria.java';" />
             </div>
         </div>
     </main>
