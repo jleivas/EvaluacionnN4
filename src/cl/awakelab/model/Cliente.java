@@ -9,6 +9,13 @@ public class Cliente {
 	
 	public Cliente() {
 	}
+	
+	public Cliente(int idCliente, String nombre, String usuario, String password) {
+		this.idCliente = idCliente;
+		this.nombre = nombre;
+		this.usuario = usuario;
+		this.password = password;
+	}
 
 	public Cliente(String nombre, String usuario, String password) {
 		this.nombre = nombre;

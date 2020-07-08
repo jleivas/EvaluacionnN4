@@ -8,27 +8,24 @@ public class Actividad {
 	private int idAsesoria;
 	private int idRevision;
 	private String nombre;
-	private int precio;
 	private String fechaVisita;
 	private boolean situacionVisita;
 	
 	public Actividad() {
 	}
 	
-	public Actividad(int idCliente, String nombre, int precio) {
+	public Actividad(int idCliente, String nombre) {
 		this.idCliente = idCliente;
 		this.nombre = nombre;
-		this.precio = precio;
 	}
 	
-	public Actividad(int idCliente, int idProf, int idAsesoria, int idRevision, String nombre, int precio,
+	public Actividad(int idCliente, int idProf, int idAsesoria, int idRevision, String nombre,
 			String fechaVisita, boolean situacionVisita) {
 		this.idCliente = idCliente;
 		this.idProf = idProf;
 		this.idAsesoria = idAsesoria;
 		this.idRevision = idRevision;
 		this.nombre = nombre;
-		this.precio = precio;
 		this.fechaVisita = fechaVisita;
 		this.situacionVisita = situacionVisita;
 	}
@@ -104,19 +101,6 @@ public class Actividad {
 	}
 
 
-
-	public int getPrecio() {
-		return precio;
-	}
-
-
-
-	public void setPrecio(int precio) {
-		this.precio = precio;
-	}
-
-
-
 	public String getFechaVisita() {
 		return fechaVisita;
 	}
@@ -144,8 +128,7 @@ public class Actividad {
 	@Override
 	public String toString() {
 		return "Actividad [idActividad=" + idActividad + ", idCliente=" + idCliente + ", idProf=" + idProf
-				+ ", idAsesoria=" + idAsesoria + ", idRevision=" + idRevision + ", nombre=" + nombre + ", precio="
-				+ precio + ", fechaVisita=" + fechaVisita + ", situacionVisita=" + situacionVisita + "]";
+				+ ", idAsesoria=" + idAsesoria + ", idRevision=" + idRevision + ", nombre=" + nombre + ", fechaVisita=" + fechaVisita + ", situacionVisita=" + situacionVisita + "]";
 	}
 	
 	

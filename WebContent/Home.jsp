@@ -32,16 +32,19 @@
             <c:if test="${error != null}">
 			<c:out value="${error}" />
 			</c:if>
+			<c:if test="${confirm != null}">
+			<c:out value="${confirm}" />
+			</c:if>
 
-			<form action="Login" method="post">
+			<form action="${pageContext.request.contextPath }/Login" method="post">
 			
             <div class="login-input">
                 <label for="username">Ingresa tu usuario:</label>
-                <input type="text" name="usuario">
+                <input type="text" name="usuario" required>
             </div>
             <div class="login-input">
                 <label for="password">Ingresa tu contraseña:</label>
-                <input type="password" name="password">
+                <input type="password" name="password" required>
             </div>
             <div>
                 <input class="login-button" type="submit" value="Entrar"/>
@@ -50,7 +53,7 @@
 
             <div class="register">
                 Registrate aquí:
-                <a href="Forms\FormCliente.jsp">Cliente</a> | <a href="Forms\FormProf.jsp">Profesional</a> | <a href="Forms\FormAdmin.jsp">Administrador</a>
+                <a href="ClienteController?action=agregarRegistro">Cliente</a>
             </div>
         </div>
     </main>

@@ -142,7 +142,7 @@ private Conexion conexion;
 	@Override
 	public Administrador buscarUsuario(String usuario) {
 		
-		Administrador a = new Administrador();
+		Administrador a = null;
 		
 		Connection con = conexion.conectar();
 		if (con != null) {
@@ -154,6 +154,8 @@ private Conexion conexion;
 				ResultSet rs = st.executeQuery();
 				
 				while (rs.next()) {
+					a = new Administrador();
+					
 					a.setIdAdmin(rs.getInt("idAdmin"));
 					a.setUsuario(rs.getString("usuario"));
 					a.setNombre(rs.getString("nombre"));

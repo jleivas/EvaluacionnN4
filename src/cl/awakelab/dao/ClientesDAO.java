@@ -14,7 +14,8 @@ import cl.awakelab.model.Cliente;
 public class ClientesDAO implements IClientesDAO{
 
 private Conexion conexion;
-	
+
+
 	public ClientesDAO(Conexion conexion) {
 		this.conexion = conexion;
 	}
@@ -93,12 +94,15 @@ private Conexion conexion;
 		
 		if (con != null) {
 			try {
-				String sql = "UPDATE clientes SET nombre = ? WHERE idCliente= ?";
+				String sql = "UPDATE clientes SET nombre = ? , usuario = ?, password = ? WHERE idCliente= ?";
 				
 				Cliente cliente = (Cliente) objeto;
 				PreparedStatement st = con.prepareStatement(sql);
 				
 				st.setString(1, cliente.getNombre());
+				st.setString(2, cliente.getUsuario());
+				st.setString(3, cliente.getPassword());
+				st.setInt(4, cliente.getIdCliente());
 				
 				registroActualizado = st.executeUpdate() > 0;
 			} catch (SQLException e) {
@@ -142,7 +146,7 @@ private Conexion conexion;
 	@Override
 	public Cliente buscarUsuario(String usuario) {
 		
-		Cliente c = new Cliente();
+		Cliente c = null;
 		
 		Connection con = conexion.conectar();
 		if (con != null) {
@@ -154,6 +158,7 @@ private Conexion conexion;
 				ResultSet rs = st.executeQuery();
 				
 				while (rs.next()) {
+					c = new Cliente();
 					c.setIdCliente(rs.getInt("idCliente"));
 					c.setUsuario(rs.getString("usuario"));
 					c.setNombre(rs.getString("nombre"));
@@ -169,5 +174,36 @@ private Conexion conexion;
 
 		return c;
 		
+	}
+
+	@Override
+	public Object buscarIdCliente(int idCliente) {
+		Cliente c = null;
+		
+		Connection con = conexion.conectar();
+		if (con != null) {
+			try {
+				String sql = "SELECT idCliente, usuario, nombre, password FROM Clientes WHERE idCliente = ?";
+				
+				PreparedStatement st = con.prepareStatement(sql);
+				st.setInt(1, idCliente);
+				ResultSet rs = st.executeQuery();
+				
+				while (rs.next()) {
+					c = new Cliente();
+					c.setIdCliente(rs.getInt("idCliente"));
+					c.setUsuario(rs.getString("usuario"));
+					c.setNombre(rs.getString("nombre"));
+					c.setPassword(rs.getString("password"));
+				} 
+			} catch (SQLException e) {
+				System.out.println("Error: Clase ClientesDAO / Método buscarIdCliente");
+				e.printStackTrace();
+			} finally {
+				conexion.desconectar();
+			}
+		}
+
+		return c;
 	}
 }

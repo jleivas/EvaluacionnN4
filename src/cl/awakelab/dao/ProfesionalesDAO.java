@@ -28,14 +28,15 @@ private Conexion conexion;
 		Connection con = conexion.conectar();
 	
 			try {
-				String sql = "INSERT INTO profesionales (nombre, usuario, password) VALUES  (?, ?, ?)";
+				String sql = "INSERT INTO profesionales (nombre, password, usuario) VALUES  (?, ?, ?)";
 				
 				Profesional prof= (Profesional) objeto;
 				PreparedStatement st = con.prepareStatement(sql);
 				
 				st.setString(1, prof.getNombre());
-				st.setString(2, prof.getUsuario());
-				st.setString(3, prof.getPassword());
+				st.setString(2, prof.getPassword());
+				st.setString(3, prof.getUsuario());
+				
 				
 				registroAgregado = st.executeUpdate() > 0;
 			} catch (SQLException e){
@@ -142,22 +143,23 @@ private Conexion conexion;
 	@Override
 	public Profesional buscarUsuario(String usuario) {
 		
-		Profesional a = new Profesional();
+		Profesional p = null;
 		
 		Connection con = conexion.conectar();
 		if (con != null) {
 			try {
-				String sql = "SELECT idProf, usuario, nombre, password FROM profesionales WHERE usuario = ?";
+				String sql = "SELECT idProf, nombre, password, usuario FROM profesionales WHERE usuario = ?";
 				
 				PreparedStatement st = con.prepareStatement(sql);
 				st.setString(1, usuario);
 				ResultSet rs = st.executeQuery();
 				
 				while (rs.next()) {
-					a.setIdProf(rs.getInt("idProf"));
-					a.setUsuario(rs.getString("usuario"));
-					a.setNombre(rs.getString("nombre"));
-					a.setPassword(rs.getString("password"));
+					p = new Profesional();
+					p.setIdProf(rs.getInt("idProf"));
+					p.setNombre(rs.getString("nombre"));
+					p.setPassword(rs.getString("password"));
+					p.setUsuario(rs.getString("usuario"));
 				} 
 			} catch (SQLException e) {
 				System.out.println("Error: Clase ProfesionalesDAO / Método buscarRegistros");
@@ -167,7 +169,39 @@ private Conexion conexion;
 			}
 		}
 
-		return a;
+		return p;
 		
+	}
+
+
+	@Override
+	public Object buscarIdProf(int idProf) {
+		Profesional p = null;
+		
+		Connection con = conexion.conectar();
+		if (con != null) {
+			try {
+				String sql = "SELECT idProf, nombre, password, usuario FROM Profesionales WHERE idProf = ?";
+				
+				PreparedStatement st = con.prepareStatement(sql);
+				st.setInt(1, idProf);
+				ResultSet rs = st.executeQuery();
+				
+				while (rs.next()) {
+					p = new Profesional();
+					p.setIdProf(rs.getInt("idProf"));
+					p.setNombre(rs.getString("nombre"));
+					p.setPassword(rs.getString("password"));
+					p.setUsuario(rs.getString("usuario"));
+				} 
+			} catch (SQLException e) {
+				System.out.println("Error: Clase ProfesionalesDAO / Método buscarIdProf");
+				e.printStackTrace();
+			} finally {
+				conexion.desconectar();
+			}
+		}
+
+		return p;
 	}
 }

@@ -2,6 +2,7 @@ package cl.awakelab.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,10 +15,11 @@ import javax.servlet.http.HttpSession;
 import cl.awakelab.conexion.Conexion;
 import cl.awakelab.dao.ClientesDAO;
 import cl.awakelab.model.Cliente;
+import cl.awakelab.model.Profesional;
 /**
  * Servlet implementation class CreacionUsuario
  */
-@WebServlet("/CreacionCliente")
+@WebServlet("/ClienteController")
 public class ClienteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -52,34 +54,62 @@ public class ClienteController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
         try {
             switch (action) {
             case "index":
                 index(request, response);
                 break;
-            case "MostrarPorID":
-                break;
+            case "eliminarRegistro":
+            	eliminarRegistro(request, response);
+            	break;
             case "mostrarRegistros":
                 mostrarRegistros(request, response);
                 break;
+            case "agregarRegistro":
+                request.getRequestDispatcher("/Forms/FormCliente.jsp").forward(request, response);
+                break;      
             default:
                 break;
             }
 
         } catch (Exception e) {
-        	System.out.println("Error: Servlet CreacionCliente / Método DoGet");
+        	System.out.println("Error: Servlet ClienteController / Método DoGet");
             e.getStackTrace();
         }
 
     }
-	
-	private void mostrarRegistros(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+	private void eliminarRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int idCliente = Integer.parseInt(request.getParameter("idCliente"));
+		Cliente user = new Cliente();
+		user.setIdCliente(idCliente);
+		System.out.println(user);
+		System.out.println(idCliente);
 		
-		 List<Object> listadoClientes = clientesDAO.mostrarRegistros();
-	        request.setAttribute("lista", listadoClientes);
-	        request.getRequestDispatcher("ListarClientes.jsp").forward(request, response);
+		boolean elimino = clientesDAO.eliminarRegistro(user);
+		
+		List<Object> listadoeliminar = clientesDAO.mostrarRegistros();
+		
+		String mensaje = "";
+		
+		if (elimino)
+			mensaje = "El cliente ha sido eliminado exitosamente";
+		else
+			mensaje = "Ocurrió un problema al eliminar al cliente";
+		request.setAttribute("confirm", mensaje);
+		request.setAttribute("listadoClientes", listadoeliminar);
+		request.getRequestDispatcher("/PanelAdmin/ListarClientes.jsp").forward(request, response);
+
+		
+	}
+
+	private void mostrarRegistros(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+			List<Object> listadoClientes = clientesDAO.mostrarRegistros();
+	        request.setAttribute("listadoClientes", listadoClientes);
+	        request.getRequestDispatcher("/PanelAdmin/ListarClientes.jsp").forward(request, response);
 		
 	}
 
@@ -110,7 +140,7 @@ public class ClienteController extends HttpServlet {
 			mensaje = "Ocurrió un error al crear el cliente";
 		
 		request.setAttribute("confirm", mensaje);
-		request.getRequestDispatcher("/WEB-INF/Vista/FormAdmin.jsp").forward(request, response);
+		request.getRequestDispatcher("/Home.jsp").forward(request, response);
 		
 		
 		

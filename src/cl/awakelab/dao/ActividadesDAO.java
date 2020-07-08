@@ -10,7 +10,6 @@ import java.util.List;
 import cl.awakelab.conexion.Conexion;
 import cl.awakelab.idao.IActividadesDAO;
 import cl.awakelab.model.Actividad;
-import cl.awakelab.model.Cliente;
 
 public class ActividadesDAO implements IActividadesDAO{
 
@@ -55,8 +54,8 @@ public class ActividadesDAO implements IActividadesDAO{
 		
 		if (con != null) {
 			try {
-				String sql = "SELECT idActividades,idCliente, idProf, idAsesoria, idRevision, nombre, precio, fechaVisita, situacionVisita nombre "
-						+ "FROM actividades ORDER BY idActividades";
+				String sql = "SELECT idActividad, idCliente, idProf, idAsesoria, idRevision, nombre, fechaVisita, situacionVisita "
+						+ "FROM actividades ORDER BY idActividad";
 				
 				PreparedStatement st = con.prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
@@ -64,6 +63,7 @@ public class ActividadesDAO implements IActividadesDAO{
 				actividades = new ArrayList<>();
 				
 				while (rs.next()) {
+				
 					Actividad a = new Actividad();
 					a.setIdActividad(rs.getInt("idActividad"));
 					a.setIdCliente(rs.getInt("idCliente"));
@@ -71,7 +71,6 @@ public class ActividadesDAO implements IActividadesDAO{
 					a.setIdAsesoria(rs.getInt("idAsesoria"));
 					a.setIdRevision(rs.getInt("idRevision"));
 					a.setNombre(rs.getString("nombre"));
-					a.setPrecio(rs.getInt("precio"));
 					a.setFechaVisita(rs.getString("fechaVisita"));
 					a.setSituacionVisita(rs.getBoolean("situacionVisita"));
 					actividades.add(a);
@@ -148,41 +147,102 @@ public class ActividadesDAO implements IActividadesDAO{
 		Connection con = conexion.conectar();
 	
 			try {
-				String sql = "INSERT INTO actividades (idCliente) VALUES  (?)";
+				String sql = "UPDATE actividades SET idCliente = ? WHERE idActividad = ? ";
 				
 				Actividad actividad = (Actividad) objeto;
 				PreparedStatement st = con.prepareStatement(sql);
 				
-				st.setString(1, actividad.getNombre());
+				st.setInt(1, actividad.getIdCliente());
+				st.setInt(2, actividad.getIdActividad());
 				
 				clienteAgregado = st.executeUpdate() > 0;
 			} catch (SQLException e){
-				System.out.println("Error: Clase ActividadesDAO / Método agregarRegistro");
+				System.out.println("Error: Clase ActividadesDAO / Método agregarCliente");
 				e.printStackTrace();
 			} finally {
 				conexion.desconectar();
 			}
-		
 		
 		return clienteAgregado;
 	}
 
 	@Override
 	public boolean agregarProfesional(Object objeto) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean profesionalAgregado = false;
+		
+		Connection con = conexion.conectar();
+	
+			try {
+				String sql = "UPDATE actividades SET idProf = ? WHERE idActividad = ? ";
+				
+				Actividad actividad = (Actividad) objeto;
+				PreparedStatement st = con.prepareStatement(sql);
+				
+				st.setInt(1, actividad.getIdProf());
+				st.setInt(2, actividad.getIdActividad());
+				
+				profesionalAgregado = st.executeUpdate() > 0;
+			} catch (SQLException e){
+				System.out.println("Error: Clase ActividadesDAO / Método agregarProfesional");
+				e.printStackTrace();
+			} finally {
+				conexion.desconectar();
+			}
+		
+		return profesionalAgregado;
 	}
 
 	@Override
 	public boolean agregarAsesoria(Object objeto) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean asesoriaAgregado = false;
+		
+		Connection con = conexion.conectar();
+	
+			try {
+				String sql = "UPDATE actividades SET idAsesoria = ? WHERE idActividad = ? ";
+				
+				Actividad actividad = (Actividad) objeto;
+				PreparedStatement st = con.prepareStatement(sql);
+				
+				st.setInt(1, actividad.getIdAsesoria());
+				st.setInt(2, actividad.getIdActividad());
+				
+				asesoriaAgregado = st.executeUpdate() > 0;
+			} catch (SQLException e){
+				System.out.println("Error: Clase ActividadesDAO / Método agregarAseosira");
+				e.printStackTrace();
+			} finally {
+				conexion.desconectar();
+			}
+		
+		return asesoriaAgregado;
 	}
+
 
 	@Override
 	public boolean agregarRevision(Object objeto) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean revisionAgregado = false;
+		
+		Connection con = conexion.conectar();
+	
+			try {
+				String sql = "UPDATE actividades SET idRevision= ? WHERE idActividad = ? ";
+				
+				Actividad actividad = (Actividad) objeto;
+				PreparedStatement st = con.prepareStatement(sql);
+				
+				st.setInt(1, actividad.getIdRevision());
+				st.setInt(2, actividad.getIdActividad());
+				
+				revisionAgregado = st.executeUpdate() > 0;
+			} catch (SQLException e){
+				System.out.println("Error: Clase ActividadesDAO / Método agregarRevision");
+				e.printStackTrace();
+			} finally {
+				conexion.desconectar();
+			}
+		
+		return revisionAgregado;
 	}
 
 	@Override

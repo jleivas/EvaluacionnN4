@@ -6,7 +6,6 @@ public class Pagos {
 	private int idpago;
 	private int idCliente;
 	private int monto;
-	private int multa;
 	private Date fPagar; //fecha a pagar
 	private Date uPago; //fecha ultimo pago
 	private boolean morosidad;
@@ -14,21 +13,24 @@ public class Pagos {
 	public Pagos() {
 		super();
 	}
+	
+
+	
+
+
+	public Pagos(int idCliente, int monto) {
+		super();
+		this.idCliente = idCliente;
+		this.monto = monto;
+	}
+
+	
+
 
 	public Pagos(int idCliente, int monto, Date fPagar, Date uPago, boolean morosidad) {
 		super();
 		this.idCliente = idCliente;
 		this.monto = monto;
-		this.fPagar = fPagar;
-		this.uPago = uPago;
-		this.morosidad = morosidad;
-	}
-
-	public Pagos(int idCliente, int monto, int multa, Date fPagar, Date uPago, boolean morosidad) {
-		super();
-		this.idCliente = idCliente;
-		this.monto = monto;
-		this.multa = multa;
 		this.fPagar = fPagar;
 		this.uPago = uPago;
 		this.morosidad = morosidad;
@@ -58,13 +60,6 @@ public class Pagos {
 		this.monto = monto;
 	}
 
-	public int getMulta() {
-		return multa;
-	}
-
-	public void setMulta(int multa) {
-		this.multa = multa;
-	}
 
 	public Date getfPagar() {
 		return fPagar;
@@ -92,10 +87,9 @@ public class Pagos {
 
 	@Override
 	public String toString() {
-		return "Pagos [idpago=" + idpago + ", idCliente=" + idCliente + ", monto=" + monto + ", multa=" + multa
-				+ ", fPagar=" + fPagar + ", uPago=" + uPago + ", morosidad=" + morosidad + "]";
+		return "Pagos [idpago=" + idpago + ", idCliente=" + idCliente + ", monto=" + monto +  
+				", fPagar=" + fPagar + ", uPago=" + uPago + ", morosidad=" + morosidad + "]";
 	}
-	
 	
 	
 	

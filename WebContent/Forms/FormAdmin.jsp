@@ -9,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario Admin</title>
-    <link rel="stylesheet" href="../css/FormAdmin.css">
-    <script type="text/javascript" src="../js/warpspeed.js"></script>
+    <link rel="stylesheet" href="<c:url value="/css/FormCliente.css"/>">
+    <script type="text/javascript" src="<c:url value="/js/wrapspeed.js"/>">
 </head>
 
 <body onload="autoLoad()">
@@ -34,7 +34,7 @@
 			</c:if>
 
 
-			<form action="CreacionAdmin" method="post">
+			<form action="AdminController" method="post">
 	            <div class="label-input">
 	                <label for="name">Nombre:</label><br>
 	                <input type="text" placeholder="Ingresa tu nombre" name="nombre" required>
@@ -50,7 +50,11 @@
 	            <div>
 	                <input class="submit-button" type="submit" value="Enviar e ir al Inicio"/>
 	            </div>
+	            
         	</form>
+        	<div class="submit-button">
+                	<a href="${pageContext.request.contextPath}/PanelAdmin/AdminPanel.jsp">Salir</a>	
+            	</div>
         </div>
     </main>
 </body>

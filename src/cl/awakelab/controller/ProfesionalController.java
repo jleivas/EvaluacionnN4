@@ -1,6 +1,8 @@
 package cl.awakelab.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +16,7 @@ import cl.awakelab.model.Profesional;
 /**
  * Servlet implementation class CreacionUsuario
  */
-@WebServlet("/CreacionProf")
+@WebServlet("/ProfesionalController")
 public class ProfesionalController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -49,9 +51,70 @@ public class ProfesionalController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+        try {
+            switch (action) {
+            case "index":
+                index(request, response);
+                break;
+            case "eliminarRegistro":
+            	eliminarRegistro(request, response);
+            	break;
+            case "mostrarRegistros":
+                mostrarRegistros(request, response);
+                break;
+            case "agregarRegistro":
+                request.getRequestDispatcher("/Forms/FormProf.jsp").forward(request, response);
+                break;      
+            default:
+                break;
+            }
+
+        } catch (Exception e) {
+        	System.out.println("Error: Servlet ProfesionalController / Método DoGet");
+            e.getStackTrace();
+        }
+
+	}
+
+
+	private void eliminarRegistro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int idProf = Integer.parseInt(request.getParameter("idProf"));
+		Profesional user = new Profesional();
+		user.setIdProf(idProf);
+		System.out.println(user);
+		System.out.println(idProf);
+		
+		boolean elimino = profsDAO.eliminarRegistro(user);
+		
+		List<Object> listadoeliminar = profsDAO.mostrarRegistros();
+		
+		String mensaje = "";
+		
+		if (elimino)
+			mensaje = "El profesional ha sido eliminado exitosamente";
+		else
+			mensaje = "Ocurrió un problema al eliminar al profesional";
+		request.setAttribute("confirm", mensaje);
+		request.setAttribute("listadoProfesionales", listadoeliminar);
+		request.getRequestDispatcher("/PanelAdmin/ListarProfesionales.jsp").forward(request, response);
+		
+	}
+
+	private void mostrarRegistros(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Object> listadoProfesionales = profsDAO.mostrarRegistros();
+        request.setAttribute("listadoProfesionales", listadoProfesionales);
+        request.getRequestDispatcher("/PanelAdmin/ListarProfesionales.jsp").forward(request, response);
+
+		
+	}
+
+		
+	
+
+	private void index(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.getRequestDispatcher("/WEB-INF/Vista/FormProf.jsp").forward(request, response);
+		
 	}
 
 	/**
@@ -63,7 +126,7 @@ public class ProfesionalController extends HttpServlet {
 		String usuario = request.getParameter("usuario");
 		String password = request.getParameter("password");
 		
-		Profesional user = new Profesional(nombre, usuario, password);
+		Profesional user = new Profesional(nombre, password, usuario);
 		
 		boolean agregar = profsDAO.agregarRegistro(user);
 		
@@ -75,7 +138,7 @@ public class ProfesionalController extends HttpServlet {
 			mensaje = "Ocurrió un error al crear el profesional";
 		
 		request.setAttribute("confirm", mensaje);
-		request.getRequestDispatcher("/WEB-INF/Vista/FormProf.jsp").forward(request, response);
+		request.getRequestDispatcher("/Forms/FormProf.jsp").forward(request, response);
 		
 		
 		

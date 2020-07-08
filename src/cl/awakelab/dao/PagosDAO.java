@@ -7,28 +7,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import cl.awakelab.conexion.*;
 import cl.awakelab.model.Pagos;
-import cl.awakelab.conexion.ConexionSingleton;
 
 public class PagosDAO {
+
+private Conexion conexion;
 	
+	public PagosDAO(Conexion conexion) {
+		this.conexion = conexion;
+	}
 	public List<Pagos> lPagos(){
-		Connection conn = null;
+		Connection conn = conexion.conectar();
 		Statement stm = null;
 		ResultSet rs = null;
 		
-		String sql ="selec * from pagos";
+		String sql ="select * from pagos";
 			List<Pagos> listarPagos = new ArrayList<Pagos>();
 			
 			try {
-				conn = ConexionSingleton.getConnection();
+				 
 				stm = conn.createStatement();
 				rs = stm.executeQuery(sql);
 				while (rs.next()) {
 					Pagos p = new Pagos();
 					p.setIdpago(rs.getInt(1));
 					p.setIdCliente(rs.getInt(2));
-					p.setMulta(rs.getInt(3));
 					p.setMonto(rs.getInt(4));
 					p.setfPagar(rs.getDate(5));
 					p.setMorosidad(rs.getBoolean(6));
@@ -38,40 +42,21 @@ public class PagosDAO {
 				stm.close();
 				rs.close();
 			}catch(SQLException e) {
-				System.out.println("Error en las clse PagosDAO listarPagos");
+				System.out.println("Error en las clase PagosDAO listarPagos");
 				e.printStackTrace();
 				
 			}
 			return listarPagos;
 	}
-	public boolean multar(Pagos mul) {
-		boolean multa = false;
-		Connection conn = null;
-		Statement stm = null;
-		
-		
-		String sql = "select idcliente, multas from pagos ('"+ mul.getIdCliente() +"','"+ mul.getMulta() +"' )";
-		try{
-			conn = ConexionSingleton.getConnection();
-			stm = conn.createStatement();
-			stm.execute(sql);
-			multa =true;
-			stm.close();
-		}catch(SQLException e) {
-			System.out.println("Error: metodo Multar");
-			e.printStackTrace();
-		}
-		return multa;
-		
-	}
+
 	public boolean pagarTotal(Pagos pagar) {
 		boolean pago = false;
 		Statement stm = null;
-		Connection con = null;
+		Connection con = conexion.conectar();
 		
 		String sql = "select idcliente, total, upago from pagos ('"+ pagar.getIdCliente() +"','"+ pagar.getMonto() +"'.'"+ pagar.getuPago()+"' )";
 		try {
-			con = ConexionSingleton.getConnection();
+			con = conexion.conectar();
 			stm = con.createStatement();
 			stm.execute(sql);
 			pago = true;
@@ -84,6 +69,28 @@ public class PagosDAO {
 		return pago;
 		
 	}
-	
+	public Pagos obtenerPagos(int idcliente) {
+		Connection con = null;
+		Statement stm =null;
+		ResultSet rs = null;
+		String sql ="select * from cliente where IDCLIENTE = " +idcliente;
+		Pagos p = new Pagos();
+		try {
+			con = conexion.conectar();
+			stm = con.createStatement();
+			rs = stm.executeQuery(sql);
+			while(rs.next()) {
+				p.setIdCliente(rs.getInt(2));
+				p.setMonto(rs.getInt(4));
+				
+			}
+			stm.close();
+			rs.close();
+		}catch(SQLException e) {
+			System.out.println("Error: Clase PagoDao, metodos obtenerPagos");
+			e.printStackTrace();
+		}
+		return p;
+	}
 
 }

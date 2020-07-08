@@ -9,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario Cliente</title>
-    <link rel="stylesheet" href="../css/FormCliente.css">
-    <script type="text/javascript" src="../js/warpspeed.js"></script>
+    <link rel="stylesheet" href="<c:url value="/css/FormCliente.css"/>">
+    <script type="text/javascript" src="<c:url value="/js/wrapspeed.js"/>">
 </head>
 
 <body onload="autoLoad()">
@@ -25,6 +25,7 @@
         </script>
     </div>
     <main>
+    
         <div class="box">
             <h3 class="title">Ingresar Cliente</h3>
             <p class="parable">Danos tus datos y te daremos acceso.</p>
@@ -33,7 +34,7 @@
 			<c:out value="${confirm}" />
 			</c:if>
 			
-			<form action="CreacionCliente" method="post">
+			<form action="ClienteController" method="post">
 	            <div class="label-input">
 	                <label for="name">Nombre:</label><br>
 	                <input type="text" placeholder="Ingresa tu nombre" name="nombre" required>
@@ -49,7 +50,11 @@
 	            <div>
 	                <input type="submit" class="submit-button" value="Enviar e ir al Inicio"/>
 	            </div>
+	            
             </form>
+            <div class="submit-button">
+                	<a href="${pageContext.request.contextPath}/PanelAdmin/AdminPanel.jsp">Salir</a>	
+            	</div>
         </div>
     </main>
 </body>

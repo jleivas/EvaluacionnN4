@@ -4,16 +4,23 @@ public class Profesional {
 	
 	private int idProf;
 	private String nombre;
-	private String usuario;
 	private String password;
+	private String usuario;
 	
 	public Profesional() {
 	}
 
-	public Profesional(String nombre, String usuario, String password) {
+	public Profesional(int idProf, String nombre, String password, String usuario) {
+		this.idProf = idProf;
 		this.nombre = nombre;
-		this.usuario = usuario;
 		this.password = password;
+		this.usuario = usuario;
+	}
+	
+	public Profesional(String nombre, String password, String usuario) {
+		this.nombre = nombre;
+		this.password = password;
+		this.usuario = usuario;
 	}
 
 	public int getIdProf() {
@@ -50,10 +57,13 @@ public class Profesional {
 
 	@Override
 	public String toString() {
-		return "Profesional [idProf=" + idProf + ", nombre=" + nombre + ", usuario=" + usuario + ", password="
-				+ password + "]";
+		return "Profesional [idProf=" + idProf + ", nombre=" + nombre + ", password=" + password + ", usuario="
+				+ usuario + "]";
 	}
+
+	
+}
 	
 	
 
-}
+

@@ -14,7 +14,7 @@ import cl.awakelab.model.Administrador;
 /**
  * Servlet implementation class CreacionUsuario
  */
-@WebServlet("/CreacionAdmin")
+@WebServlet("/AdminController")
 public class AdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
